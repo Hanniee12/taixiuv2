@@ -1,18 +1,18 @@
 <?php
-
+// Hàm để gọi API và lấy kết quả cần thiết
 function getData($md5) {
     $url = "https://sublikere.giize.com/apiv2/md5.php?key=hoangcut&mamd5=" . urlencode($md5);
 
-
+    // Gọi API
     $response = file_get_contents($url);
     $data = json_decode($response, true);
 
-
+    // Kiểm tra nếu có lỗi
     if (isset($data['error'])) {
         return "Lỗi: " . $data['error'];
     }
 
-  
+    // Trả về các giá trị cần thiết
     return [
         'predict_result' => $data['predict_result'] ?? 'Không có dữ liệu',
         'tai_percent' => $data['tai_percent'] ?? 'Không có dữ liệu',
@@ -20,11 +20,11 @@ function getData($md5) {
     ];
 }
 
-
+// Kiểm tra nếu form được gửi
 if (isset($_POST['submit'])) {
     $md5 = $_POST['md5'];
 
-
+    // Gọi hàm lấy dữ liệu
     $result = getData($md5);
 }
 ?>
@@ -32,126 +32,46 @@ if (isset($_POST['submit'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tool Tài Xỉu</title>
-    <link rel="icon" href="./OIP.jpg">
-    <meta name="description" content="A bad boy who is half-hearted and uneducated all day long, dreams of becoming a scholar in the fields">
-    <meta name="keywords" content="ANIME_AI">
-    <meta name="author" content="ANIME_AI">
-    <meta name="robots" content="index, follow">
-    <meta property="og:locale" content="vi-VN">
-    <meta name="og:image" content="./OIP.jpg">
-    <meta name="og:url" content="https://hanniee12.github.io/Tai11D7/">
-    <meta name="og:description" content="A bad boy who is half-hearted and uneducated all day long, dreams of becoming a scholar in the fields">
-    <meta name="og:site_name" content="ANIME_AI">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gọi API MD5</title>
     <style>
         body {
-        background-image: url(./OIP.jpg);
-        background-size: cover;
-        background-repeat: no-repeat; /* ✅ Ngăn lặp ảnh */
-        background-position: center; /* ✅ Canh giữa ảnh */
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        min-height: 100vh; /* ✅ Đảm bảo chiều cao luôn đủ */
-    }
-
-
-        .container {
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: row;
-            background-color: #00bcd4; 
-            padding: 30px;
-            width: 400px;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            height: 100vh;
+            margin: 0;
+            background-color: #f2f2f2;
         }
-
-        h1 {
-            color: #a30000;
-            font-size: 2rem;
+        .container {
             text-align: center;
-            margin-bottom: 20px;
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
         }
-
-        .form-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        input[type="text"] {
+        .form-container input {
             padding: 10px;
             width: 100%;
-            margin-bottom: 10px;
+            font-size: 16px;
+            margin: 10px 0;
             border: 1px solid #ddd;
             border-radius: 5px;
-            font-size: 1rem;
         }
-
-        button {
+        .form-container button {
             padding: 10px 20px;
-            font-size: 1rem;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: #ff0000;
-        }
-        .modal {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex; /* Đảm bảo nó hiển thị */
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-        .modal-content h2 {
-            margin-top: 0;
-        }
-        .close-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
+            font-size: 16px;
             background-color: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-        .close-btn:hover {
+        .form-container button:hover {
             background-color: #45a049;
         }
         .result-box {
@@ -170,131 +90,36 @@ if (isset($_POST['submit'])) {
         .result-box p {
             font-size: 18px;
         }
-        @media (max-width: 600px) {
-            .container {
-                background-size: cover;
-                flex-direction: column;
-                width: 90%;
-                padding: 20px;
-            }
-
-            input[type="text"] {
-                width: 100%;
-            }
-
-            button {
-                width: 100%;
-            }
-
-            .result-box {
-                width: 90%;
-            }
-        }
-        .fancy-title {
-            font-size: 1.5rem;
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(90deg, #ff416c, #ff4b2b, #ff416c);
-            background-size: 200% auto;
+        .close-btn {
+            background-color: #f44336;
             color: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            animation: shine 3s ease-in-out infinite;
-            font-weight: bold;
-            letter-spacing: 2px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
-
-        @keyframes shine {
-            0% {
-                background-position: 0% center;
-            }
-            50% {
-                background-position: 100% center;
-            }
-            100% {
-                background-position: 0% center;
-            }
+        .close-btn:hover {
+            background-color: #d32f2f;
         }
-        .fancy-footer {
-            background: linear-gradient(90deg, #1f1c2c, #928dab);
-            color: #fff;
-            padding: 20px 10px;
-            text-align: center;
-            font-size: 1rem;
-            font-family: 'Segoe UI', sans-serif;
-            box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 10;
-        }
-
-        .fancy-footer p {
-            margin: 0;
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-
-        .highlight {
-            font-weight: bold;
-            color: #ffeb3b;
-            text-shadow: 0 0 10px #ffeb3b;
-        }
-
-
-
-
     </style>
 </head>
 <body>
-    <div class="modal" id="welcomeModal" style="display: none;">
-        <div class="modal-content">
-            <img src="./1.gif" alt="">
-            <h2>Chào mừng đến web của Tài_11D7</h2>
-            <p>Chào mừng bạn đến với trang web của tôi! Tôi là một người yêu thích công nghệ và đang học lập trình. </p>
-            <p>Rất mong bạn có thể hài lòng bởi dịch vụ của chúng tôi...</p>
-            <button class="close-btn" onclick="closeModal()">Đóng</button>
+
+<div class="container">
+    <h1>Nhập mã MD5 để lấy dữ liệu</h1>
+
+    <!-- Form nhập MD5 -->
+    <form method="POST">
+        <div class="form-container">
+            <input type="text" name="md5" placeholder="Nhập mã MD5" required>
+            <button type="submit" name="submit">Lấy dữ liệu</button>
         </div>
-    </div>
-
-    <h1 class="fancy-title">🔐 Tool Giải Mã MD5 🔍</h1>
-
-    <div class="container">
-
-        <!-- Form nhập MD5 -->
-        <form method="POST">
-            <div class="form-container">
-                <input type="text" name="md5" placeholder="Nhập mã MD5" required>
-                <button type="submit" name="submit">Giải Mã</button>
-            </div>
-        </form>
-        <img src="./3.gif" style="margin-left: 20px ;"  >
-    </div>
-    <footer class="fancy-footer">
-        <p>© 2023 Tool Tài Xỉu. Bởi <span class="highlight">TRẦN HƯNG TÀI.</span>.</p>
-    </footer>
-
-    
-    <script>
-        window.onload = function () {
-        const modalShown = sessionStorage.getItem("welcome_shown");
-        if (!modalShown) {
-            document.getElementById("welcomeModal").style.display = "flex";
-            sessionStorage.setItem("welcome_shown", "yes"); // Chỉ hiện 1 lần cho mỗi tab
-        }
-    };
-
-    function closeModal() {
-        document.getElementById("welcomeModal").style.display = "none";
-    }
-
-       
-    </script>
-
-    
+    </form>
+</div>
 
 <?php if (isset($result)): ?>
     <!-- Hiển thị kết quả trong bảng thông báo -->
     <div class="result-box" id="resultBox">
-        <p><strong><img src="./12.gif" alt=""></strong></p>
         <p><strong>Dự đoán:</strong> <?php echo htmlspecialchars($result['predict_result']); ?></p>
         <p><strong>Tài:</strong> <?php echo htmlspecialchars($result['tai_percent']); ?>%</p>
         <p><strong>Xỉu:</strong> <?php echo htmlspecialchars($result['xiu_percent']); ?>%</p>
