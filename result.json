@@ -1,0 +1,48 @@
+{
+    "analysis": {
+        "dice1": {
+            "hex": "92b35b50",
+            "decimal": 2461227856,
+            "dice_value": 5,
+            "logical_assessment": "Even Value - Likely Balanced",
+            "cycle_analysis": "Cycle Position: 4 (Cycle Length: 12)"
+        },
+        "dice2": {
+            "hex": "e2af467a",
+            "decimal": 3803137658,
+            "dice_value": 3,
+            "logical_assessment": "Even Value - Likely Balanced",
+            "cycle_analysis": "Cycle Position: 2 (Cycle Length: 12)"
+        },
+        "dice3": {
+            "hex": "91ddd63e",
+            "decimal": 2447234622,
+            "dice_value": 1,
+            "logical_assessment": "Even Value - Likely Balanced",
+            "cycle_analysis": "Cycle Position: 6 (Cycle Length: 12)"
+        }
+    },
+    "total_dice": 9,
+    "predict_result": "X\u1ec8U",
+    "tai_percent": "40%",
+    "xiu_percent": "60%",
+    "trend_analysis": {
+        "dice1": "High Value - High Probability for Extreme Outcomes",
+        "dice2": "High Value - High Probability for Extreme Outcomes",
+        "dice3": "High Value - High Probability for Extreme Outcomes"
+    },
+    "monte_carlo_results": {
+        "tai": 0,
+        "xiu": 0
+    },
+    "bias_analysis": {
+        "actual_mean": 3,
+        "theoretical_mean": 10.5,
+        "bias": -7.5,
+        "bias_description": "Bias towards lower values (X\u1ec8U)",
+        "standard_error": 1.63
+    },
+    "processing_time_seconds": 0.00181,
+    "timestamp": "2025-05-01 11:01:24",
+    "tacgia": "trandinhhoang"
+}
